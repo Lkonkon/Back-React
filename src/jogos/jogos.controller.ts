@@ -24,17 +24,17 @@ export class JogosController {
 
   @Post()
   create(
-    @Headers('x-api-key') token: string,
+    //@Headers('x-api-key') token: string,
     @Body() createJogoDto: CreateJogoDto,
   ) {
-    if (!token) throw new UnauthorizedException('Token não informado');
-    this.authService.validateToken(token);
+    //if (!token) throw new UnauthorizedException('Token não informado');
+    //this.authService.validateToken(token);
     return this.jogosService.create(createJogoDto);
   }
 
   @Get()
   findAll(
-    @Headers('x-api-key') token: string,
+    //@Headers('x-api-key') token: string,
     @Query('nome') nome?: string,
     @Query('valor') valor?: string,
     @Query('empresa') empresa?: string,
@@ -43,8 +43,8 @@ export class JogosController {
     @Query('consoles') consoles?: string,
     @Query('avaliacao') avaliacao?: number,
   ) {
-    if (!token) throw new UnauthorizedException('Token não informado');
-    this.authService.validateToken(token);
+    //if (!token) throw new UnauthorizedException('Token não informado');
+    //this.authService.validateToken(token);
 
     return this.jogosService.findAll(
       nome,
