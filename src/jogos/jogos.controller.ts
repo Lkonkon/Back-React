@@ -66,19 +66,17 @@ export class JogosController {
 
   @Patch(':id')
   update(
-    @Headers('x-api-key') token: string,
+    //@Headers('x-api-key') token: string,
     @Param('id') id: string,
     @Body() updateJogoDto: UpdateJogoDto,
   ) {
-    if (!token) throw new UnauthorizedException('Token não informado');
-    this.authService.validateToken(token);
+    //if (!token) throw new UnauthorizedException('Token não informado');
+    //this.authService.validateToken(token);
     return this.jogosService.update(+id, updateJogoDto);
   }
 
   @Delete(':id')
-  remove(@Headers('x-api-key') token: string, @Param('id') id: string) {
-    if (!token) throw new UnauthorizedException('Token não informado');
-    this.authService.validateToken(token);
+  remove(@Param('id') id: string) {
     return this.jogosService.remove(+id);
   }
 }
