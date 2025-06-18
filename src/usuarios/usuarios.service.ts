@@ -33,7 +33,7 @@ export class UsuariosService {
           nome: createUsuarioDto.nome,
           email: createUsuarioDto.email,
           senha: createUsuarioDto.senha,
-          token,
+          token: createUsuarioDto.token,
         },
       });
       return usuario;
