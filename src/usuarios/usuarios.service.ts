@@ -6,10 +6,15 @@ import {
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PrismaService } from 'prisma/prisma.service';
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class UsuariosService {
   constructor(private readonly prisma: PrismaService) {}
+
+  private generateToken(): string {
+    return randomBytes(32).toString('hex');
+  }
 
   async create(createUsuarioDto: CreateUsuarioDto) {
     try {
@@ -21,11 +26,14 @@ export class UsuariosService {
         throw new ConflictException('Email já em utilização');
       }
 
+      const token = this.generateToken();
+
       const usuario = await this.prisma.usuario.create({
         data: {
           nome: createUsuarioDto.nome,
           email: createUsuarioDto.email,
           senha: createUsuarioDto.senha,
+          token,
         },
       });
       return usuario;
