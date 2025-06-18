@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -8,10 +12,30 @@ export class UsuariosService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
-    const usuario = await this.prisma.usuario.create({
-      data: createUsuarioDto,
-    });
-    return usuario;
+    try {
+      const existingUser = await this.prisma.usuario.findUnique({
+        where: { email: createUsuarioDto.email },
+      });
+
+      if (existingUser) {
+        throw new ConflictException('Email já em utilização');
+      }
+
+      const usuario = await this.prisma.usuario.create({
+        data: {
+          nome: createUsuarioDto.nome,
+          email: createUsuarioDto.email,
+          senha: createUsuarioDto.senha,
+        },
+      });
+      return usuario;
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw error;
+      }
+      console.error('Erro ao criar usuário:', error);
+      throw new InternalServerErrorException('Erro ao criar usuário');
+    }
   }
 
   findAll() {
