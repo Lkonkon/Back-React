@@ -47,7 +47,7 @@ export class UsuariosService {
   }
 
   findAll() {
-    return `This action returns all usuarios`;
+    return `TESSSSSSSSSSSSSSSSSSSSSTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE`;
   }
 
   findOne(id: number) {
