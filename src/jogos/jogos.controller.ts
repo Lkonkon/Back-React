@@ -23,18 +23,12 @@ export class JogosController {
   ) {}
 
   @Post()
-  create(
-    //@Headers('x-api-key') token: string,
-    @Body() createJogoDto: CreateJogoDto,
-  ) {
-    //if (!token) throw new UnauthorizedException('Token não informado');
-    //this.authService.validateToken(token);
+  create(@Body() createJogoDto: CreateJogoDto) {
     return this.jogosService.create(createJogoDto);
   }
 
   @Get()
   findAll(
-    //@Headers('x-api-key') token: string,
     @Query('nome') nome?: string,
     @Query('valor') valor?: string,
     @Query('empresa') empresa?: string,
@@ -43,9 +37,6 @@ export class JogosController {
     @Query('consoles') consoles?: string,
     @Query('avaliacao') avaliacao?: number,
   ) {
-    //if (!token) throw new UnauthorizedException('Token não informado');
-    //this.authService.validateToken(token);
-
     return this.jogosService.findAll(
       nome,
       valor,
@@ -65,13 +56,7 @@ export class JogosController {
   }
 
   @Patch(':id')
-  update(
-    //@Headers('x-api-key') token: string,
-    @Param('id') id: string,
-    @Body() updateJogoDto: UpdateJogoDto,
-  ) {
-    //if (!token) throw new UnauthorizedException('Token não informado');
-    //this.authService.validateToken(token);
+  update(@Param('id') id: string, @Body() updateJogoDto: UpdateJogoDto) {
     return this.jogosService.update(+id, updateJogoDto);
   }
 

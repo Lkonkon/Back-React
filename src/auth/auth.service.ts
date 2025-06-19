@@ -6,8 +6,6 @@ import { randomBytes } from 'crypto';
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  //private readonly validToken = '123456';
-
   private generateToken(): string {
     return randomBytes(32).toString('hex');
   }
@@ -28,10 +26,8 @@ export class AuthService {
       throw new UnauthorizedException('E-mail ou senha inválidos');
     }
 
-    // Gera um novo token para o usuário
     const token = this.generateToken();
 
-    // Atualiza o token do usuário
     await this.prisma.usuario.update({
       where: { id: user.id },
       data: { token },
