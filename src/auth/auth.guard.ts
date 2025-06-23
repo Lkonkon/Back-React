@@ -12,7 +12,14 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
+    let token = this.extractTokenFromHeader(request);
+
+    // Se não encontrar no header, tenta pegar do query param
+    if (!token && request.query && request.query.token) {
+      token = request.query.token;
+    }
+
+    console.log('Token recebido no guard:', token);
 
     if (!token) {
       throw new UnauthorizedException('Token não fornecido');
@@ -22,6 +29,9 @@ export class AuthGuard implements CanActivate {
     if (!isValid) {
       throw new UnauthorizedException('Token inválido');
     }
+
+    // Armazenar o token na requisição para uso posterior
+    request.token = token;
 
     return true;
   }

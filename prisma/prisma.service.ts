@@ -12,8 +12,4 @@ export class PrismaService
   async onModuleDestroy() {
     await this.$disconnect();
   }
-
-  get usuario() {
-    return this['usuario'];
-  }
 }
